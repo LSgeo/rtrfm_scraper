@@ -1,3 +1,4 @@
 Beautifulsoup4
 lxml
 spotipy
+pytest

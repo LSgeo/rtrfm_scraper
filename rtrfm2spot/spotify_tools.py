@@ -46,3 +46,6 @@ def create_spotify_playlist(SHOWTITLES:dict, spot: spotipy.Spotify, show_url: st
     logger.info(f"Playlist created at {playlist['external_urls']['spotify']}")
 
     return playlist.get("id")
+
+def spotify_dummy_test(input:int):
+    return(input+1)
