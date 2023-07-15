@@ -1,0 +1,5 @@
+.venv/
+*.pyc
+.cache
+rtrfm2spot/spotify_tokens.py
+.vscode/
