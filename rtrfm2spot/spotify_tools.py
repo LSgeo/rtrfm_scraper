@@ -3,6 +3,7 @@ from spotipy.oauth2 import SpotifyOAuth
 from pathlib import Path
 import logging
 
+
 def authenticate_spotify(tokens) -> spotipy.Spotify:
     return spotipy.Spotify(
         auth_manager=SpotifyOAuth(
@@ -12,6 +13,7 @@ def authenticate_spotify(tokens) -> spotipy.Spotify:
             scope="user-library-read playlist-modify-public",
         )
     )
+
 
 def search_spotify(spot: spotipy.Spotify, search: tuple) -> str:
     """Return best matching song URI for (artist, track) tuple"""
@@ -24,7 +26,9 @@ def search_spotify(spot: spotipy.Spotify, search: tuple) -> str:
     return result["tracks"]["items"][0]["id"]
 
 
-def create_spotify_playlist(SHOWTITLES:dict, spot: spotipy.Spotify, show_url: str, **kwargs) -> str:
+def create_spotify_playlist(
+    SHOWTITLES: dict, spot: spotipy.Spotify, show_url: str, **kwargs
+) -> str:
     """Create a new playlist for the show, with stylised name and description"""
     name = Path(show_url).stem
     stylised_name = SHOWTITLES[name.split("-")[0]]
@@ -42,10 +46,11 @@ def create_spotify_playlist(SHOWTITLES:dict, spot: spotipy.Spotify, show_url: st
     playlist = spot.user_playlist_create(
         user_id, name=f"{stylised_name} - {date}", description=desc
     )
-    logger = logging.getLogger('rtrfm_log')
+    logger = logging.getLogger("rtrfm_log")
     logger.info(f"Playlist created at {playlist['external_urls']['spotify']}")
 
     return playlist.get("id")
 
-def spotify_dummy_test(input:int):
-    return(input+1)
+
+def spotify_dummy_test(input: int):
+    return input + 1

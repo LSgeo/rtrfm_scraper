@@ -1,7 +1,11 @@
 import argparse
 import logging
 from rtrfm2spot.rtrfm_tools import scrape_rtrfm_show
-from rtrfm2spot.spotify_tools import authenticate_spotify, search_spotify, create_spotify_playlist
+from rtrfm2spot.spotify_tools import (
+    authenticate_spotify,
+    search_spotify,
+    create_spotify_playlist,
+)
 
 SHOWTITLES = {
     "allcity": "All City",
@@ -29,9 +33,10 @@ parser = argparse.ArgumentParser(
 )
 parser.add_argument("show_url", type=str, help="URL of the show to process")
 
+
 def process_show(show_url: str) -> None:
     """Scrape track list from a show-episode on RTRFM"""
-    logger = logging.getLogger('rtrfm_log')
+    logger = logging.getLogger("rtrfm_log")
     if "show-episode" not in show_url:
         raise ValueError(
             "Must specify a specific show with date in url (press previous)"
@@ -40,14 +45,14 @@ def process_show(show_url: str) -> None:
     artist_track_list = scrape_rtrfm_show(show_url)
     num_tracks = len(artist_track_list)
     logger.info(f"Read {num_tracks} tracks from {show_url} tracklist")
-    
+
     try:
         import rtrfm2spot.spotify_tokens as tokens
     except ImportError:
         raise ImportError(
             "Please add your required tokens to a file called spotify_tokens.py"
         )
-    
+
     spot = authenticate_spotify(tokens)
 
     tracks = []
@@ -61,20 +66,14 @@ def process_show(show_url: str) -> None:
     logger.info(f"I think I Found {len(track_ids)} / {num_tracks} tracks on Spotify")
 
     playlist_id = create_spotify_playlist(
-        SHOWTITLES,
-        spot, 
-        show_url, 
-        found=track_ids, 
-        total=num_tracks, 
-        missing=missing
+        SHOWTITLES, spot, show_url, found=track_ids, total=num_tracks, missing=missing
     )
 
     spot.playlist_add_items(playlist_id, track_ids)
 
 
 if __name__ == "__main__":
-    
     logging.basicConfig(level=logging.INFO)
-    logger = logging.getLogger('rtrfm_log')
+    logger = logging.getLogger("rtrfm_log")
     args = parser.parse_args()
     process_show(show_url=args.show_url)
