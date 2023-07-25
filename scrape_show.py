@@ -49,9 +49,7 @@ def process_show(show_url: str) -> None:
     try:
         import rtrfm2spot.spotify_tokens as tokens
     except ImportError:
-        raise ImportError(
-            "Please add your required tokens to a file called spotify_tokens.py"
-        )
+        raise ImportError("Please add your tokens rtrfm2spot/spotify_tokens.py")
 
     spot = authenticate_spotify(tokens)
 

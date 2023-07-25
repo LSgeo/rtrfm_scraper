@@ -29,5 +29,5 @@ I firmly encourage you to first listen to the restream on RTRFM, then turn to th
 
 Usage:
 - Sign up to Spotify Developer API access
-- Create a file with the required tokens, to be imported and used in the app
+- Add your tokens to rtrfm2spot/spotify_tokens.py with the required tokens, to be imported and used in the app
 - Then run the script, with the show to scrape as the first and only argument
