@@ -1,6 +1,7 @@
 import argparse
 import logging
 from rtrfm2spot.rtrfm_tools import scrape_rtrfm_show
+import rtrfm2spot.spotify_tokens as tokens
 from rtrfm2spot.spotify_tools import (
     authenticate_spotify,
     search_spotify,
@@ -46,10 +47,8 @@ def process_show(show_url: str) -> None:
     num_tracks = len(artist_track_list)
     logger.info(f"Read {num_tracks} tracks from {show_url} tracklist")
 
-    try:
-        import rtrfm2spot.spotify_tokens as tokens
-    except ImportError:
-        raise ImportError("Please add your tokens rtrfm2spot/spotify_tokens.py")
+    if not tokens.CLIENT_ID:
+        raise FileNotFoundError("Please add your tokens rtrfm2spot/spotify_tokens.py")
 
     spot = authenticate_spotify(tokens)
 
