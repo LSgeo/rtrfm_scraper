@@ -38,9 +38,9 @@ parser.add_argument("show_url", type=str, help="URL of the show to process")
 def process_show(show_url: str) -> None:
     """Scrape track list from a show-episode on RTRFM"""
     logger = logging.getLogger("rtrfm_log")
-    if "show-episode" not in show_url:
+    if "?date=" not in show_url:
         raise ValueError(
-            "Must specify a specific show with date in url (press previous)"
+            "Must specify a specific show with date in url (press the left arrow)"
         )
 
     artist_track_list = scrape_rtrfm_show(show_url)
